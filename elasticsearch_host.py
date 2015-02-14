@@ -1,6 +1,6 @@
 from elasticsearch import Elasticsearch
 
-class DataInjector(object):
+class ElasticsearchHost(object):
     def __init__(self, elastic_host):
         self._elastichost = elastic_host
         self._elastic_client = Elasticsearch([self._elastichost])

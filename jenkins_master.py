@@ -11,6 +11,13 @@ class JenkinsMaster(object):
         
     def get_name(self):
         return self._name
+    
+    def get_build_ids(self, job_name):
+        if job_name not in self._api_client.keys():
+            print 'Job %s does not exist.' % job_name
+            return None
+        else:
+            return self._api_client[job_name].get_build_ids()
         
     def get_build_data(self, job_name, buid_number):
         # return None if job_name invalid
@@ -28,9 +35,3 @@ class JenkinsMaster(object):
             
         build._data['consoleLog'] = build.get_console()
         return build._data
-    
-if __name__ == '__main__':
-    master = JenkinsMaster('test-master', 'http://localhost:8080')
-    data = master.get_build_data('test-reporter', 2)
-    injector = DataInjector('localhost:9200')
-    injector.inject_data(master.get_name(), 'test-reporter', data)
